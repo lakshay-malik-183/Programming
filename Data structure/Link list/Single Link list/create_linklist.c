@@ -22,7 +22,8 @@ do{
      printf("\n1.create\n2.traverse\n3.search element\n4.delete from beginning\n5.delete at end\n6.count no. of nodes\n7.delete all nodes\n");
       printf("8.delete at position\n9.delete at middle\n10. insert at end\n11.insert at middle\n12.middle node\n13. insert at beginning\n");
      printf("14. nth node find\n15. insert At Position\n16. rearrange link list\n17. triplet\n18. last occurence\n19. remove duplicates\n");
-      printf("20. segeregate even odd\n21. intersection 2 nodes\n22. nth node from end\n23. swap nodes");
+      printf("20. segeregate even odd\n21. intersection 2 nodes\n22. nth node from end\n23. swap nodes\n24. rotate list\n");
+      printf("25. sort a list of 0s,1s,2s\n");
       printf("\n enter choice:\n");
      scanf("%d",&ch);
 
@@ -120,6 +121,12 @@ do{
                     break;
 
            case 23: swapNodes(20,40);
+                     break;
+
+           case 24: rotateList();
+                     break;
+
+           case 25: sortLiistOf012();
                      break;
 
          default: printf("you entered wrong choice\n");
@@ -664,32 +671,48 @@ void insertAtPosition()
 
      printf("enter position where you want to insert node ");
         scanf("%d",&p);
-        if(head==NULL)
+        int count=countNodes();
+        if(head==NULL && p==1)
         {
             head=newNode;
         }
+         else if (head==NULL && (p>1 || p==0))
+         {
+             printf("not possible");
+         }
         else
         {
 
         temp=head;
         prev=NULL;
-        int count=countNodes();
-
-        if(p>count)
+         if(p==1)
         {
-            printf("C");
+            newNode->next=head;
+            head=newNode;
         }
-        else
+        else if(p<=count)
         {
-            for(i=0;i<p;i++)
+            temp=head;
+            for(i=1;i<p;i++)
             {
-                prev=temp;
-                temp=temp->next;
+              prev=temp;
+              temp=temp->next;
             }
             prev->next=newNode;
             newNode->next=temp;
+        }
+        else if(p==count+1)
+        { temp=head;
+            while(temp->next!=NULL)
+            {
+                temp=temp->next;
+            }
+            temp->next=newNode;
+            temp=newNode;
 
         }
+
+
         }
     }
 }
@@ -768,8 +791,7 @@ void triplet(struct Node *head1,struct Node *head2,struct Node *head3,int n)
             {
                 if(temp1->data+temp2->data+temp3->data==n)
                 {
-                 flag
-                 =1;
+                 flag=1;
                  printf("%d %d %d",temp1->data,temp2->data,temp3->data);
                  break;
                 }
@@ -1074,4 +1096,125 @@ void swapNodes(int X,int y)
          second->next=first;
      }
      first->next=next2;
+}
+
+void rotateList()
+{
+    struct Node *temp=NULL;
+    struct Node *old=NULL;
+    struct Node *k=NULL;
+
+    temp=head;
+    old=head;
+
+    int count=1;
+    int key;
+    printf("enter key");
+    scanf("%d",&key);
+
+    int total=countNodes();
+
+    if(key>total)
+    {
+        printf("\n entered key is greater than total no. of nodes");
+    }
+    else if(key==total)
+        printf("\n no change in list");
+
+
+    else
+        {
+
+while(count<key && temp!=NULL)
+{
+    temp=temp->next;
+    count++;
+}
+k=temp;
+temp=temp->next;
+head=temp;
+k->next=NULL;
+
+while(temp->next!=NULL)
+{
+    temp=temp->next;
+}
+temp->next=old;
+}
+}
+
+void sortLiistOf012()
+{
+    struct Node *temp=NULL;
+    struct Node *temp1=NULL;
+    struct Node *temp2=NULL;
+    struct Node *temp3=NULL;
+    struct Node *one=NULL;
+    struct Node *zero=NULL;
+    struct Node *two=NULL;
+
+        temp=head;
+
+        while(temp!=NULL)
+        {
+            if(temp->data==1)
+            {
+                if(one==NULL)
+                {
+                    one=temp;
+                    temp=temp->next;
+                    one->next=NULL;
+                    temp1=one;
+
+                }
+                else
+                {
+                    temp1->next=temp;
+                    temp1=temp1->next;
+                    temp=temp->next;
+                    temp1->next=NULL;
+                }
+            }
+
+          else if(temp->data==2)
+            {
+                if(two==NULL)
+                {
+                    two=temp;
+                    temp=temp->next;
+                    two->next=NULL;
+                    temp2=two;
+
+                }
+                else
+                {
+                    temp2->next=temp->data;
+                    temp2=temp2->next;
+                    temp2->next=NULL;
+
+                }
+            }
+            if(temp->data==0)
+            {
+                if(zero==NULL)
+                {
+                    zero=temp;
+                    temp=temp->next;
+                    zero->next=NULL;
+                    temp3=zero;
+
+                }
+                else
+                {
+                    temp3->next=temp->data;
+                    temp3=temp3->next;
+                    temp3->next=NULL;
+                    temp=temp->next;
+                }
+            }
+        }
+
+        head=zero;
+        temp3->next=two;
+        temp2->next=one;
 }
