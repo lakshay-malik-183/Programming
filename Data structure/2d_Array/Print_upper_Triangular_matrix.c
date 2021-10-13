@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<conio.h>
+void main()
+{
+    int size,i,j;
+    printf("enter size of matrix:-\n ");
+    scanf("%d",&size);
+
+int arr[size][size];
+
+printf("enter elements in matrix:- \n");
+
+   for(i=0;i<size;i++)
+   {
+       for(j=0;j<size;j++)
+       {
+           scanf("%d",&arr[i][j]);
+       }
+   }
+      printf("Upper Triangular Matrix :-\n ");
+
+   for(i=0;i<size;i++)
+   {
+       for(j=0;j<size;j++)
+       {
+           if(i<j || i==j)
+           {
+               printf("%d ",arr[i][j]);
+           }
+           else
+            printf(" _ ");
+       }
+       printf("\n");
+   }
+}
